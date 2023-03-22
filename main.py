@@ -136,50 +136,12 @@ async def disconnect(context):
 #    await ctx.send("This Is Nothing.")
 #    await ctx.send(called_once_a_day.start())
 
-images = [
-    "https://cdn.discordapp.com/attachments/887367307612020796/893589108578979840/artworks-000127888315-p1zyoc-t500x500.png",
-    "https://cdn.discordapp.com/attachments/887367307612020796/893589261088092170/2566818_0.png",
-    "https://cdn.discordapp.com/attachments/887367307612020796/893589388162891806/Fuck-you-Cartoon-Car-Sticker-Decor-Removable-Black-silver-CL509.png"
-]
-
-
 @slash.slash(name='join',
              description='Tells the bot to join the voice channel')
 async def join(Context):
     channel = Context.author.voice.channel
     await channel.connect()
     await Context.send(f"The Bot Has Joined {channel}")
-
-
-@client.command()
-async def ask(ctx):
-
-    _list = ["when was I Born?", '9 + 10']
-
-    list1 = random.choice(_list)
-
-    def answer():
-        answer = "-1"
-        if _list[0] == list1:
-            answer = "1 July 2006"
-        else:
-            answer = "2"
-        return answer
-
-    await ctx.send("What is the answer to this question?")
-    await asyncio.sleep(1)
-    await ctx.send(list1)
-
-    def check(m):
-        return m.author == ctx.author and m.channel == ctx.channel
-
-    msg = await client.wait_for('message', check=check, timeout=None)
-
-    if msg.content == answer():
-        await ctx.send("good")
-    else:
-        await ctx.send("no")
-
 
 @slash.slash(description="Play any audio from link.")
 async def link(Context, url):
