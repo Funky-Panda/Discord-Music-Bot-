@@ -2,7 +2,6 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from youtubesearchpython import VideosSearch
-client = commands.Bot(command_prefix="!",intents = discord.Intents.all())
 from discord import FFmpegPCMAudio
 from discord.utils import get
 import youtube_dl
@@ -10,6 +9,8 @@ import yt_dlp
 import asyncio
 import requests
 # from discord_components import create_select_option
+
+client = commands.Bot(command_prefix="!",intents = discord.Intents.all())
 
 @client.event
 async def on_ready():
