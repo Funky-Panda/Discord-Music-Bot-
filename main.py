@@ -42,44 +42,13 @@ async def hello(interaction: discord.Interaction):
 # @app_commands.describe(description="This Is A List of Commands For The Music:")
 async def help(interaction: discord.Interaction):
     embed = discord.Embed(title="MUSIC BOT (YOUTUBE)",description="List of commands:",color=discord.Color.blue())
-    embed.add_field(name="/join",value="This will make the bot join your vc you are in.",inline=False)
     embed.add_field(name="/play (Youtube/Soundcloud-Link)",value="This play the youtube/soundcloud audio through the discord bot.",inline=False)
     embed.add_field(name="/search (key word/phrase)",value="This will search youtube and find all the videos relating to that search and give you a list of options to choose from",inline=False)
     embed.add_field(name="/pause",value="This pause the music audio.",inline=False)
     embed.add_field(name="/resume",value="This will resume the audio.",inline=False)
-    embed.add_field(name="/stop",value="This will restart the music if any issues.", inline=False)
-    embed.add_field(name="/leave",value="This will kick the bot from the vc the bot is in.",inline=False)
-    embed.add_field(name="/clear (the number of messages you want to clear)",value="This delete a certain about of messages",inline=False)
+    embed.set_thumbnail(url=interaction.guild.icon.url)
+    embed.set_footer(text=f"Requested by {interaction.user}", icon_url=interaction.user.avatar.url)
     await interaction.response.send_message(embed=embed)
-
-@client.tree.command(name="harsh", description="Harsh being naughty")
-async def harsh(interaction: discord.Interaction):
-    user = interaction.user
-    if user.voice is None:
-        await interaction.response.send_message("You must be in a voice channel to use this command!")
-        return
-
-    channel = user.voice.channel
-    voice_client = await channel.connect()
-    source = discord.FFmpegPCMAudio("harsh.mp3")
-    player = voice_client.play(source)
-    await asyncio.sleep(6)
-    await voice_client.disconnect()
-
-@client.tree.command(name="gideon-moment", description="Gideon being naughty")
-async def gideonMoment(interaction: discord.Interaction):
-    user = interaction.user
-    if user.voice is None:
-        await interaction.response.send_message("You must be in a voice channel to use this command!")
-        return
-
-    channel = user.voice.channel
-    voice_client = await channel.connect()
-    source = discord.FFmpegPCMAudio("gideonMoment.mp3")
-    player = voice_client.play(source)
-    await asyncio.sleep(3)
-    await voice_client.disconnect()
-
 
 @client.tree.command(name="play", description="Make The Bot Play Any Youtube Video.")
 async def play(interaction: discord.Interaction, url: str):
@@ -107,8 +76,6 @@ async def play(interaction: discord.Interaction, url: str):
     print(f"{interaction.user} has just played:")
     print(f"Title: {title} - Uploader: {uploader} - Link: {url}")
     await interaction.response.send_message(embed=embed)
-
-
 
 @client.tree.command(name="search", description="Make The Bot Play Any Youtube Video but uses words instead of a URL")
 async def search(interaction: discord.Interaction, search: str):
@@ -186,17 +153,4 @@ async def resume(interaction: discord.Interaction):
 async def clear(interaction: discord.Interaction):
     await interaction.response.send_message("The bot is not currently paused.")
 
-
-@client.tree.command(name="clear",description="This will delete a certain amount of previous messages.")
-@commands.has_permissions(administrator=True)
-async def clear(interaction: discord.Interaction, limit: int):
-  embed=discord.Embed(title="Cleared Messages",description=f"{interaction.user.mention} Cleared **{limit}** Message(s)")
-  embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/894709014280142908/897541185764221009/discord_milk_small.png")
-  msg = "This Message Will Delete in: 10 Seconds"
-  embed.set_footer(text=msg, icon_url=interaction.user.avatar.url)
-  await interaction.channel.purge(limit=limit)
-  await interaction.response.send_message(embed=embed,delete_after=10,ephemeral=True)
-
-
-
-client.run("YOUR-TOKEN-GOES-HERE")
+client.run("TOKEN-HERE")
